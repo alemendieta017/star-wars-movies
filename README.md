@@ -1,98 +1,396 @@
+# 🎬 Star Wars Movies API
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-22-green" alt="Node.js Version" />
+  <img src="https://img.shields.io/badge/NestJS-11-red" alt="NestJS Version" />
+  <img src="https://img.shields.io/badge/MongoDB-8.0-blue" alt="MongoDB Version" />
+  <img src="https://img.shields.io/badge/TypeScript-5.7-blue" alt="TypeScript Version" />
+  <img src="https://img.shields.io/badge/Architecture-Clean%20Architecture-orange" alt="Architecture" />
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## 📋 Descripción
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+API REST para la gestión de películas de Star Wars construida con **NestJS** y **Clean Architecture**. La aplicación permite gestionar películas, usuarios y autenticación con JWT, además de sincronizar datos con la API externa de Star Wars (SWAPI).
 
-## Project setup
+### ✨ Características Principales
 
-```bash
-$ npm install
+- 🏗️ **Clean Architecture** - Separación clara de responsabilidades
+- 🔐 **Autenticación JWT** - Sistema de autenticación seguro
+- 👥 **Gestión de Usuarios** - Roles y permisos
+- 🎬 **CRUD de Películas** - Operaciones completas de gestión
+- 🔄 **Sincronización SWAPI** - Integración con API externa
+- 📚 **Documentación Swagger** - API documentada automáticamente
+- 🧪 **Testing** - Cobertura de tests unitarios
+- 🐳 **Docker** - Containerización lista para producción
+
+## 🏗️ Arquitectura
+
+La aplicación sigue los principios de **Clean Architecture** con las siguientes capas:
+
+```
+src/
+├── auth/                    # Módulo de autenticación
+│   ├── guards/             # Guards de autenticación y autorización
+│   ├── strategies/         # Estrategias de Passport (JWT, Local)
+│   └── infrastructure/     # DTOs y controladores
+├── movies/                 # Módulo de películas
+│   ├── application/        # Casos de uso (Use Cases)
+│   ├── domain/            # Modelos de dominio y repositorios
+│   └── infrastructure/    # Implementaciones concretas
+├── users/                 # Módulo de usuarios
+│   ├── application/       # Casos de uso
+│   ├── domain/           # Modelos de dominio
+│   └── infrastructure/   # Implementaciones
+└── shared/               # Utilidades compartidas
+    └── pipes/           # Pipes de validación
 ```
 
-## Compile and run the project
+### 🎯 Principios de Clean Architecture
 
-```bash
-# development
-$ npm run start
+1. **Domain Layer** - Modelos de negocio y interfaces de repositorios
+2. **Application Layer** - Casos de uso y lógica de aplicación
+3. **Infrastructure Layer** - Implementaciones concretas (MongoDB, APIs externas)
+4. **Presentation Layer** - Controladores y DTOs
 
-# watch mode
-$ npm run start:dev
+## 🚀 Instalación y Configuración
 
-# production mode
-$ npm run start:prod
+### Prerrequisitos
+
+- Node.js 22+
+- MongoDB 8.0+
+- npm o yarn
+
+### Variables de Entorno
+
+Crea un archivo `.env` en la raíz del proyecto:
+
+```env
+# Base de datos
+MONGO_URI=mongodb://localhost:27017/star-wars-movie-db
+
+# JWT
+JWT_SECRET=clave-secreta
+
+# Puerto de la aplicación
+PORT=3000
+
+# SWAPI
+SWAPI_URL=https://www.swapi.tech/api
 ```
 
-## Run tests
+### Instalación
 
 ```bash
-# unit tests
-$ npm run test
+# Clonar el repositorio
+git clone <repository-url>
+cd star-wars-movies
 
-# e2e tests
-$ npm run test:e2e
+# Instalar dependencias
+npm install
 
-# test coverage
-$ npm run test:cov
+# Iniciar MongoDB (si no está corriendo)
+# En Windows con MongoDB Compass o servicio
+# En Linux/Mac: sudo systemctl start mongod
+
+# Ejecutar en modo desarrollo
+npm run start:dev
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 📜 Scripts Disponibles
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Desarrollo
+npm run start:dev          # Modo desarrollo con hot reload
+npm run start:debug        # Modo debug con watch
+
+# Producción
+npm run build              # Compilar TypeScript
+npm run start:prod         # Ejecutar en modo producción
+
+# Testing
+npm run test               # Tests unitarios
+npm run test:watch         # Tests en modo watch
+npm run test:cov           # Tests con cobertura
+npm run test:e2e           # Tests end-to-end
+
+# Calidad de código
+npm run lint               # Linter con auto-fix
+npm run format             # Formatear código con Prettier
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🐳 Docker
 
-## Resources
+### 🚀 Levantar la aplicación con Docker Compose (Recomendado)
 
-Check out a few resources that may come in handy when working with NestJS:
+La forma más fácil de levantar la aplicación completa es usando Docker Compose. El proyecto incluye un archivo `docker-compose.yml` que configura automáticamente la aplicación y MongoDB.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+#### Prerrequisitos
+- Docker Desktop instalado y ejecutándose
+- Puerto 3000 y 27017 disponibles
 
-## Support
+#### Pasos para levantar la aplicación
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+1. **Clonar el repositorio** (si no lo has hecho):
+```bash
+git clone <repository-url>
+cd star-wars-movies
+```
 
-## Stay in touch
+2. **Levantar todos los servicios**:
+```bash
+# Levantar en segundo plano
+docker-compose up -d
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# O levantar y ver logs en tiempo real
+docker-compose up
+```
 
-## License
+3. **Verificar que los servicios estén corriendo**:
+```bash
+# Ver estado de los contenedores
+docker-compose ps
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Ver logs de la aplicación
+docker-compose logs -f app
+
+# Ver logs de MongoDB
+docker-compose logs -f mongo
+```
+
+4. **Acceder a la aplicación**:
+- **API**: http://localhost:3000
+- **Swagger UI**: http://localhost:3000/docs
+- **MongoDB**: localhost:27017
+
+#### Comandos útiles de Docker Compose
+
+```bash
+# Parar todos los servicios
+docker-compose down
+
+# Parar y eliminar volúmenes (⚠️ elimina datos de MongoDB)
+docker-compose down -v
+
+# Reconstruir la imagen de la aplicación
+docker-compose up --build
+
+# Ver logs en tiempo real
+docker-compose logs -f
+
+# Ejecutar comandos dentro del contenedor de la app
+docker-compose exec app npm run test
+docker-compose exec app npm run lint
+
+# Acceder al shell de MongoDB
+docker-compose exec mongo mongosh
+```
+
+#### Solución de problemas comunes
+
+**Puerto 3000 ocupado**:
+```bash
+# Cambiar puerto en docker-compose.yml
+ports:
+  - "3001:3000"  # Usar puerto 3001 en lugar de 3000
+```
+
+**MongoDB no conecta**:
+```bash
+# Verificar que MongoDB esté corriendo
+docker-compose logs mongo
+
+# Reiniciar solo MongoDB
+docker-compose restart mongo
+```
+
+**Aplicación no inicia**:
+```bash
+# Ver logs de la aplicación
+docker-compose logs app
+
+# Reconstruir sin caché
+docker-compose build --no-cache
+docker-compose up
+```
+
+### 🔧 Construir imagen manualmente
+
+Si prefieres construir la imagen manualmente:
+
+```bash
+# Construir imagen
+docker build -t star-wars-movies .
+
+# Ejecutar contenedor (requiere MongoDB corriendo)
+docker run -p 3000:3000 \
+  -e MONGO_URI=mongodb://host.docker.internal:27017/star-wars-movie-db \
+  -e JWT_SECRET=clave-secreta \
+  -e SWAPI_URL=https://www.swapi.tech/api \
+  star-wars-movies
+```
+
+### 📋 Estructura del Docker Compose
+
+El archivo `docker-compose.yml` incluye:
+
+- **Servicio `app`**: Aplicación NestJS
+  - Puerto 3000 expuesto
+  - Variables de entorno configuradas
+  - Volúmenes para desarrollo (hot reload)
+  - Dependencia de MongoDB
+
+- **Servicio `mongo`**: Base de datos MongoDB
+  - Puerto 27017 expuesto
+  - Volumen persistente para datos
+  - Red personalizada
+
+- **Red `star-wars-network`**: Red aislada para los servicios
+
+## 📚 Documentación de la API
+
+Una vez que la aplicación esté ejecutándose, la documentación de Swagger estará disponible en:
+
+- **Swagger UI**: http://localhost:3000/docs
+- **JSON Schema**: http://localhost:3000/docs-json
+
+### Endpoints Principales
+
+#### 🔐 Autenticación
+- `POST /auth/login` - Iniciar sesión
+
+#### 🎬 Películas
+- `GET /movies` - Listar películas (con paginación)
+- `GET /movies/:id` - Obtener película por ID
+- `POST /movies` - Crear película (requiere autenticación)
+- `PATCH /movies/:id` - Actualizar película (requiere autenticación)
+- `DELETE /movies/:id` - Eliminar película (requiere autenticación)
+- `POST /movies/sync` - Sincronizar con SWAPI (requiere autenticación)
+
+#### 👥 Usuarios
+- `POST /users/register` - Crear usuario
+
+## 🧪 Testing
+
+```bash
+# Ejecutar todos los tests
+npm run test
+
+# Tests con cobertura
+npm run test:cov
+
+# Tests en modo watch
+npm run test:watch
+
+# Tests end-to-end
+npm run test:e2e
+```
+
+La aplicación incluye tests unitarios para:
+- ✅ Casos de uso
+- ✅ Controladores
+- ✅ Servicios
+- ✅ Guards y estrategias
+- ✅ Pipes de validación
+
+## 🔧 Dependencias Principales
+
+### Producción
+- **@nestjs/core** - Framework principal
+- **@nestjs/mongoose** - Integración con MongoDB
+- **@nestjs/jwt** - Autenticación JWT
+- **@nestjs/passport** - Estrategias de autenticación
+- **@nestjs/swagger** - Documentación automática
+- **mongoose** - ODM para MongoDB
+- **bcryptjs** - Hash de contraseñas
+- **class-validator** - Validación de DTOs
+
+### Desarrollo
+- **@nestjs/testing** - Testing utilities
+- **jest** - Framework de testing
+- **eslint** - Linter
+- **prettier** - Formateador de código
+- **typescript** - Compilador TypeScript
+
+## 🏛️ Módulos de la Aplicación
+
+### 🔐 AuthModule
+- **Responsabilidad**: Autenticación y autorización
+- **Características**:
+  - JWT Strategy para tokens
+  - Local Strategy para login
+  - Guards de autenticación y roles
+  - Decorador @Roles para control de acceso
+
+### 🎬 MoviesModule
+- **Responsabilidad**: Gestión de películas
+- **Características**:
+  - CRUD completo de películas
+  - Sincronización con SWAPI
+  - Paginación y filtros
+  - Validación de MongoDB ObjectIds
+
+### 👥 UsersModule
+- **Responsabilidad**: Gestión de usuarios
+- **Características**:
+  - Creación de usuarios
+  - Roles (USER, ADMIN)
+  - Integración con AuthModule
+
+## 🔒 Seguridad
+
+- **JWT Tokens** con expiración de 24 horas
+- **Bcrypt** para hash de contraseñas
+- **Guards** para protección de rutas
+- **Validación** de entrada con class-validator
+- **Roles** para control de acceso granular
+
+## 🚀 Despliegue
+
+### Variables de Entorno de Producción
+
+```env
+NODE_ENV=production
+PORT=3000
+MONGO_URI=mongodb://servidor-mongo:27017/star-wars-movie-db
+JWT_SECRET=clave-secreta
+```
+
+### Comandos de Despliegue
+
+```bash
+# Construir para producción
+npm run build
+
+# Ejecutar en producción
+npm run start:prod
+```
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## 📞 Soporte
+
+Si tienes preguntas o necesitas ayuda:
+
+- 📧 Email: [amendieta017@gmail.com]
+- 🐛 Issues: [GitHub Issues](https://github.com/tu-usuario/star-wars-movies/issues)
+- 📖 Documentación: [NestJS Docs](https://docs.nestjs.com/)
+
+---
+
+<p align="center">
+  Hecho con ❤️ usando <a href="https://nestjs.com">NestJS</a> y <a href="https://www.mongodb.com">MongoDB</a>
+</p>
