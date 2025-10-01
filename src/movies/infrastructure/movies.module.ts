@@ -10,6 +10,7 @@ import { UpdateMovieUseCase } from '../application/UpdateMovieUseCase';
 import { DeleteMovieUseCase } from '../application/DeleteMovieUseCase';
 import { GetMovieByIdUseCase } from '../application/GetMovieByIdUseCase';
 import { MongoIdValidationPipe } from '../../shared/pipes/MongoIdValidationPipe';
+import { AuthModule } from '../../auth/auth.module';
 
 @Module({
   providers: [
@@ -28,6 +29,7 @@ import { MongoIdValidationPipe } from '../../shared/pipes/MongoIdValidationPipe'
     MongooseModule.forFeature([
       { name: MovieEntity.name, schema: MovieSchema },
     ]),
+    AuthModule,
   ],
   controllers: [MovieController],
 })

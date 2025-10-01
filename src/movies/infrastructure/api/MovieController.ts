@@ -7,6 +7,7 @@ import {
   Delete,
   Patch,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ListMoviesUseCase } from '../../application/ListMoviesUseCase';
 import { CreateMovieUseCase } from '../../application/CreateMovieUseCase';
@@ -21,6 +22,10 @@ import { ListMoviesResponseDto } from '../dto/ListMoviesResponseDto';
 import { MovieMapper } from '../mappers/MovieMapper';
 import { MongoIdValidationPipe } from '../../../shared/pipes/MongoIdValidationPipe';
 import { ListMoviesQuery } from '../../domain/repositories/MoviesRepository';
+import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../../../auth/guards/roles.guard';
+import { Roles } from '../../../auth/decorators/roles.decorator';
+import { Role } from '../../../users/domain/models/Role';
 
 @Controller('movies')
 export class MovieController {
@@ -47,12 +52,16 @@ export class MovieController {
   }
 
   @Post()
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async createMovie(@Body() createMovieDto: CreateMovieDto): Promise<Movie> {
     const movie = MovieMapper.fromCreateDto(createMovieDto);
     return this.createMoviesUseCase.execute(movie);
   }
 
   @Get(':id')
+  @Roles(Role.USER)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async getMovieById(
     @Param('id', MongoIdValidationPipe) id: string,
   ): Promise<Movie> {
@@ -60,6 +69,8 @@ export class MovieController {
   }
 
   @Patch(':id')
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async updateMovie(
     @Param('id', MongoIdValidationPipe) id: string,
     @Body() movie: UpdateMovieDto,
@@ -69,6 +80,8 @@ export class MovieController {
   }
 
   @Delete(':id')
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async deleteMovie(
     @Param('id', MongoIdValidationPipe) id: string,
   ): Promise<void> {
