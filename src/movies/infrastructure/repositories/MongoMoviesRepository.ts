@@ -72,4 +72,16 @@ export class MongoMoviesRepository implements MoviesRepository {
       throw new NotFoundException('Movie not found');
     }
   }
+
+  async deleteAllMovies(): Promise<void> {
+    await this.movieModel.deleteMany({}).exec();
+  }
+
+  async createMovies(movies: MovieDomain[]): Promise<MovieDomain[]> {
+    const movieEntities = movies.map((movie) =>
+      MovieMapper.toPersistance(movie),
+    );
+    const results = await this.movieModel.insertMany(movieEntities);
+    return results.map((result) => MovieMapper.toDomain(result as MovieEntity));
+  }
 }

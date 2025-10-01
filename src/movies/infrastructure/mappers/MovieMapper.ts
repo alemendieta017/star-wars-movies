@@ -2,6 +2,7 @@ import { Movie as MovieEntity } from '../entities/MovieEntity';
 import { Movie } from '../../domain/models/Movie';
 import { CreateMovieDto } from '../dto/CreateMovieDto';
 import { UpdateMovieDto } from '../dto/UpdateMovieDto';
+import { SwapiFilm } from '../services/SwapiService';
 
 export class MovieMapper {
   static toDomain(movieEntity: MovieEntity): Movie {
@@ -91,5 +92,29 @@ export class MovieMapper {
     if (updateMovieDto.url) partial.url = updateMovieDto.url;
 
     return partial;
+  }
+
+  static fromSwapiFilm(swapiFilm: SwapiFilm): Movie {
+    return {
+      id: null,
+      created: new Date(swapiFilm.properties.created),
+      edited: new Date(swapiFilm.properties.edited),
+      starships: swapiFilm.properties.starships,
+      vehicles: swapiFilm.properties.vehicles,
+      planets: swapiFilm.properties.planets,
+      producer: swapiFilm.properties.producer,
+      title: swapiFilm.properties.title,
+      episode_id: swapiFilm.properties.episode_id,
+      director: swapiFilm.properties.director,
+      release_date: swapiFilm.properties.release_date,
+      opening_crawl: swapiFilm.properties.opening_crawl,
+      characters: swapiFilm.properties.characters,
+      species: swapiFilm.properties.species,
+      url: swapiFilm.properties.url,
+    };
+  }
+
+  static fromSwapiFilmList(swapiFilms: SwapiFilm[]): Movie[] {
+    return swapiFilms.map((film) => this.fromSwapiFilm(film));
   }
 }

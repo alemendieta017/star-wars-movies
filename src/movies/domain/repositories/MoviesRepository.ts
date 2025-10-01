@@ -16,4 +16,6 @@ export abstract class MoviesRepository {
   abstract createMovie(movie: Movie): Promise<Movie>;
   abstract updateMovie(movie: Movie): Promise<Movie>;
   abstract deleteMovie(id: string): Promise<void>;
+  abstract deleteAllMovies(): Promise<void>;
+  abstract createMovies(movies: Movie[]): Promise<Movie[]>;
 }

@@ -15,10 +15,12 @@ import { Movie } from '../../domain/models/Movie';
 import { GetMovieByIdUseCase } from '../../application/GetMovieByIdUseCase';
 import { UpdateMovieUseCase } from '../../application/UpdateMovieUseCase';
 import { DeleteMovieUseCase } from '../../application/DeleteMovieUseCase';
+import { SyncMoviesUseCase } from '../../application/SyncMoviesUseCase';
 import { CreateMovieDto } from '../dto/CreateMovieDto';
 import { UpdateMovieDto } from '../dto/UpdateMovieDto';
 import { ListMoviesDto } from '../dto/ListMoviesDto';
 import { ListMoviesResponseDto } from '../dto/ListMoviesResponseDto';
+import { SyncMoviesResponseDto } from '../dto/SyncMoviesResponseDto';
 import { MovieMapper } from '../mappers/MovieMapper';
 import { MongoIdValidationPipe } from '../../../shared/pipes/MongoIdValidationPipe';
 import { ListMoviesQuery } from '../../domain/repositories/MoviesRepository';
@@ -35,6 +37,7 @@ export class MovieController {
     private readonly getMovieByIdUseCase: GetMovieByIdUseCase,
     private readonly updateMovieUseCase: UpdateMovieUseCase,
     private readonly deleteMovieUseCase: DeleteMovieUseCase,
+    private readonly syncMoviesUseCase: SyncMoviesUseCase,
   ) {}
 
   @Get()
@@ -86,5 +89,13 @@ export class MovieController {
     @Param('id', MongoIdValidationPipe) id: string,
   ): Promise<void> {
     return this.deleteMovieUseCase.execute(id);
+  }
+
+  @Post('sync')
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async syncMovies(): Promise<SyncMoviesResponseDto> {
+    const movies = await this.syncMoviesUseCase.execute();
+    return new SyncMoviesResponseDto(movies);
   }
 }
