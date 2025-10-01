@@ -17,7 +17,12 @@ export class User extends Document {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ required: true, enum: Object.values(Role), default: Role.USER, type: String })
+  @Prop({
+    required: true,
+    enum: Object.values(Role),
+    default: Role.USER,
+    type: String,
+  })
   role: Role;
 }
 

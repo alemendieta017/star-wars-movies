@@ -11,7 +11,7 @@ export class ListMoviesDto {
     default: 1,
   })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value))
+  @Transform(({ value }) => parseInt(value as string))
   @IsNumber()
   @Min(1)
   page?: number = 1;
@@ -24,7 +24,7 @@ export class ListMoviesDto {
     default: 10,
   })
   @IsOptional()
-  @Transform(({ value }) => parseInt(value))
+  @Transform(({ value }) => parseInt(value as string))
   @IsNumber()
   @Min(1)
   rows?: number = 10;
