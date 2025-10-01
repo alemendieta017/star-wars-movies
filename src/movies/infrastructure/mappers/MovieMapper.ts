@@ -7,7 +7,7 @@ import { SwapiFilm } from '../services/SwapiService';
 export class MovieMapper {
   static toDomain(movieEntity: MovieEntity): Movie {
     return {
-      id: movieEntity._id.toString() || null,
+      id: movieEntity._id?.toString() || null,
       created: new Date(movieEntity.created),
       edited: new Date(movieEntity.edited),
       starships: movieEntity.starships,

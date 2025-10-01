@@ -4,7 +4,7 @@ import { User } from '../../domain/models/User';
 export class UserMapper {
   static toDomain(userEntity: UserEntity): User {
     return {
-      id: userEntity._id.toString() || null,
+      id: userEntity._id?.toString() || null,
       email: userEntity.email,
       password: userEntity.password,
       role: userEntity.role,
